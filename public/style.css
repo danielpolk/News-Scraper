@@ -1,4 +1,5 @@
 
+
 body {
     background: #fff;
     margin: 0 0 1em;
@@ -23,48 +24,32 @@ h4 {
     text-align: center;
 }
 
-/* button {
-    padding: .5em 1em;
-    background: gray;
-    margin: .5em 1em 0 0;
-    border-radius: .2em;
-    font-size: .8em;
-    color: #fff;
-} */
-
 .savebuttonClick {
     background: #ccccd2;
 }
 
 #articles {
-    float: right;
-    max-width: 43%;
-    margin: 3em;
-}
-
-#news_background {
-    padding: 19em;
-    position: fixed;
     z-index: -1;
 }
 
-#notes {
-        float: left;
-    max-width: 39%;
-    z-index: 1;
-    left: 7%;
-    background: #4b504fcf;
-    /* padding: 3em; */
-        padding: 13px;
+/* #news_background {
+    padding: 19em;
     position: fixed;
-        /* top: 82%; */
+    z-index: -2;
+} */
 
+#notes {
+    color: white;
+    z-index: 1;
+    background: #6c757d;
+    position: fixed;
 }
 
 
-/* .notes_padding {
-    padding: 1em;
-} */
+.notes_padding {
+    padding: 13px;
+    border-radius: 15px;
+}
 
 #titleinput,
 #bodyinput {

@@ -1,9 +1,9 @@
 <div class="jumbotron text-center p-4 p-md-5 text-white rounded bg-dark">
     <div class="col-md-6 px-0">
-      <h1 class="display-4 font-italic">Saved Articles</h1>
+      <h1 class="display-4 font-italic">SAVED ARTICLES</h1>
       {{!-- <p class="lead my-3">All the news you want Exclusive</p> --}}
-      <a href="/" id="scrape" class='btn btn-success'>Home</a>
-            <a href="/notes" id="allNotes" class='btn btn-success'>Your Notes</a>
+      <a href="/" id="scrape" class='btn btn-secondary'>Home</a>
+            <a href="/notes" id="allNotes" class='btn btn-secondary'>Saved Notes</a>
     </div>
 </div>
 
@@ -18,7 +18,8 @@
       <div class="card-body">
         <h5 class="card-title"> {{this.title}}</h5>
         <p class="card-text"> {{this.body}}</p>
-        <button class='btn btn-outline-secondary'  id='deleteSavedHTML' data-id='{{this._id}}' data-title='{{this.title}}' data-summary='{{this.body}}'
+        <a target='_blank' href= {{this.link}}><button class='btn btn-outline-secondary col-sm-4 m-1'> Read Article</button></a>
+        <button class='btn btn-outline-secondary col-sm-4 m-1'  id='deleteSavedHTML' data-id='{{this._id}}' data-title='{{this.title}}' data-summary='{{this.body}}'
           data-link='{{this.link}}'>Delete Article</button>
       </div>
     </div>

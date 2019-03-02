@@ -5,7 +5,7 @@ $.getJSON("/articles", function(data) {
     // For each one
     for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-        $("#articles").prepend("<div data-id='" + data[i]._id + "'>" + "<h2>" + data[i].title + "</h2><p>" + data[i].summary + "</p><a target='_blank' href='" + data[i].link + "'>Read Article</a><br><button id='makeNoteHTML' class='btn btn-outline-secondary'  data-id='" + data[i]._id + "'>Make a Note</button><button class='btn btn-outline-secondary'  data-id='" + data[i]._id + "' id='saveArticleHTML' data-title='" + data[i].title + "' data-summary='" + data[i].summary + "' data-link='" + data[i].link + "'>Save Article</button></div><hr>");
+        $("#articles").prepend("<div data-id='" + data[i]._id + "'>" + "<h2>" + data[i].title + "</h2><p>" + data[i].summary + "</p><br><a target='_blank' href='" + data[i].link + "'><button class='btn btn-outline-secondary col-sm-12 col-md-3 m-1'> Read Article</button></a><button class='btn btn-outline-secondary col-sm-12 col-md-3 m-1'  data-id='" + data[i]._id + "' id='saveArticleHTML' data-title='" + data[i].title + "' data-summary='" + data[i].summary + "' data-link='" + data[i].link + "'>Save Article</button><button id='makeNoteHTML' class='btn btn-outline-secondary col-sm-12 col-md-3 m-1'  data-id='" + data[i]._id + "'>Make a Note</button></div><hr>");
     }
 });
 
@@ -20,9 +20,12 @@ $(document).on("click", "#scrape", function () {
 
 // ============== ON CLICK TO MAKE NOTE (GOES TO NOTE ROUTE)
 $(document).on("click", "#makeNoteHTML", function () {
-    console.log("help");
+    // console.log("help");
     // Empty the notes from the note section
     $("#notes").empty();
+    $("#notes").addClass("col-sm-4 float-left");
+    $("#articles").addClass("col-sm-6 float-right");
+    // $("#articles").addClass("col-sm-6 float-right");
     // Save the id from the p tag
     var thisId = $(this).attr("data-id");
 
@@ -34,7 +37,7 @@ $(document).on("click", "#makeNoteHTML", function () {
     // With that done, add the note information to the page
         .then(function (data) {
             console.log(data);
-            // $("#notes").addClass("notes_padding");
+            $("#notes").addClass("notes_padding");
             // The title of the article
             $("#notes").append("<h2>" + data.title + "</h2>");
             // An input to enter a new title
@@ -42,7 +45,7 @@ $(document).on("click", "#makeNoteHTML", function () {
             // A textarea to add a new note body
             $("#notes").append("<div class='form-row'><div class='form-group col-md-12'><h4>Body:</h4><textarea id='bodyinput' name='body'></textarea></div></div>");
             // A button to submit a new note, with the id of the article saved to it
-            $("#notes").append("<button class='btn btn-outline-secondary' data-id='" + data._id + "' id='savenote' data-title='" + data.title + "' data-summary='" + data.summary + "'>Save Note</button>");
+            $("#notes").append("<button class='btn btn-light' data-id='" + data._id + "' id='savenote' data-title='" + data.title + "' data-summary='" + data.summary + "'>Save Note</button> <button class='btn btn-light' id='cancelNote'>Cancel</button>");
 
 
             // If there's a note in the article
@@ -74,8 +77,9 @@ $(document).on("click", "#allNotes", function () {
 
 // When you click the savenote button
 $(document).on("click", "#savenote", function() {
-    // Grab the id associated with the article from the submit button
+    // Grab the id and link associated with the article from the submit button
     var thisId = $(this).attr("data-id");
+    // var data_link = $(this).attr("data-link");
 
     // Run a POST request to change the note, using what's entered in the inputs
     $.ajax({
@@ -86,6 +90,8 @@ $(document).on("click", "#savenote", function() {
             title: $("#titleinput").val(),
             // Value taken from note textarea
             body: $("#bodyinput").val()
+            // Link taken from note article.
+            // link: data_link
         }
     })
     // With that done
@@ -94,21 +100,38 @@ $(document).on("click", "#savenote", function() {
             console.log(data);
             // Empty the notes section
             $("#notes").empty();
+            $("#notes").removeClass("notes_padding");
         });
 
     // Also, remove the values entered in the input and textarea for note entry
     $("#titleinput").val("");
     $("#bodyinput").val("");
+    $("#notes").removeClass("col-sm-4 float-left");
+    $("#articles").removeClass("col-sm-6 float-right");
 });
 
-// When you click the deletenote button
+// When you click the cancelNote button
+$(document).on("click", "#cancelNote", function() {
+    
+    $("#notes").empty();
+    $("#notes").removeClass("notes_padding");
+
+
+    // Also, remove the values entered in the input and textarea for note entry
+    $("#titleinput").val("");
+    $("#bodyinput").val("");
+    $("#notes").removeClass("col-sm-4 float-left");
+    $("#articles").removeClass("col-sm-6 float-right");
+});
+
+// When you click the deleteNoteHTML button
 $(document).on("click", "#deleteNoteHTML", function() {
     // Grab the id associated with the article from the submit button
     var thisId = $(this).attr("data-id");
     var data_title = $(this).attr("data-title");
     var data_summary = $(this).attr("data-summary");
     var data_link = $(this).attr("data-link");
-  
+
     $.ajax({
         method: "DELETE",
         url: "/notes/" + thisId,
@@ -126,6 +149,8 @@ $(document).on("click", "#deleteNoteHTML", function() {
 
         });
 });
+
+
 
 // ============== ON CLICK TO DELETED SAVED
 $(document).on("click", "#deleteSavedHTML", function () {
